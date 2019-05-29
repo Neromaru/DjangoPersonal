@@ -1,0 +1,10 @@
+h1 {
+    color: white;
+}
+
+header{
+    height: 35px;
+    width: 100%;
+    position: fixed;
+    background-color: blue;
+}

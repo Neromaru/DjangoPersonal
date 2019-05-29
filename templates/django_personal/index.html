@@ -1,10 +1,21 @@
+<!-- django_personal/index.html -->
 <!DOCTYPE html>
+{% load static %}
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>$Title$</title>
+    <title>Index</title>
+    <link href="{% static 'css/index.css' %}"></head>
 </head>
+<header>
+    <h1>
+        <a href="{% url 'index' %}">PriceAggregator app</a>
+    </h1>
+</header>
 <body>
-$END$
+{%  block graph %}
+{% endblock graph %}
+{% block content %}
+{% endblock content %}
 </body>
 </html>
