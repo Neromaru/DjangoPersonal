@@ -1,0 +1,25 @@
+<!-- django_personal/goods_list.html -->
+
+{% extends 'django_personal/index.html' %}
+
+{% block content %}
+    {% include 'django_personal/search_form.html' %}
+    {% if search is True %}
+        {% include 'django_personal/price_stats.html' %}
+    {% endif %}
+    {% for good in goods_list %}
+        <div>
+            <h3>
+                <a href="{{ good.paltform.base_url }}{{ good.product_url }}">
+                    {{ good.name }}
+                </a>
+            </h3>
+        <p>
+            {{ good.price }}
+        </p>
+        <p>
+            {{ good.description }}
+        </p>
+        </div>
+    {% endfor %}
+{% endblock content %}

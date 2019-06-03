@@ -1,0 +1,43 @@
+<!-- django_personal/index.html -->
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Index</title>
+    <link href="{% static 'css/index.css' %}"></head>
+</head>
+<header>
+    <h1>
+        <a href="{% url 'index' %}">PriceAggregator app</a>
+    </h1>
+</header>
+<body>
+{% if user.is_authenticated %}
+    <div>
+        <label>
+            <img src="{% static 'imgs/administrator-male.png' %}">
+        </label>
+        {{ user.username }}
+    <p>
+        <a href="{% url 'logout' %}">Logout</a>
+    </p>
+    </div>
+    {% else %}
+        <div>
+            <p>
+                <a href="{% url 'login' %}">
+                    Login
+                </a>
+            </p>
+            <p>
+                <a href="{% url 'signup' %}">
+                    Sign Up!
+                </a>
+            </p>
+        </div>
+    {% endif %}
+{% block content %}
+{% endblock content %}
+</body>
+</html>

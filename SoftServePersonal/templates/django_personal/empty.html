@@ -1,0 +1,12 @@
+<!-- 'django_personal/empty.html  -->
+
+{% extends 'django_personal/index.html' %}
+
+{% block title %}
+    <h2>Sorry !</h2>
+{% endblock %}
+
+{% block content %}
+    {% include 'django_personal/search_form.html' %}
+    <h3>We probably messed up with data so we are empty with this request</h3>
+{% endblock %}
