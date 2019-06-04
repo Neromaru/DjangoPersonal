@@ -7,5 +7,8 @@
     {% csrf_token %}
     {{ form.as_p }}
     <button type="submit" value="Log In">Sign In</button>
+    <div>
+        <a href="users/password_reset">Forgot password</a>
+    </div>
     </form>
 {% endblock content %}

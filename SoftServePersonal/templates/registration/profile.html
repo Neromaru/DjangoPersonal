@@ -1,0 +1,44 @@
+<!-- registration/profile.html -->
+
+{% extends 'django_personal/index.html' %}
+
+{% load static %}
+
+{% block title %}
+    <h2>
+    {{ user.username }}
+    </h2>
+{% endblock title %}
+
+{% block content %}
+    <div id="username">
+        <label>
+            Username:
+        </label>
+    {{ user.username }}
+    </div>
+    <div>
+        {% if user.image %}
+            <img alt="" src="{{ user.image }}">
+            {% else %}
+            <img src="{% static 'imgs/administrator-male.png' %}">
+        {% endif %}
+    </div>
+    <div>
+    <label>
+        You name:
+    </label>
+        {{ user.first_name }}
+    </div>
+    <div>
+    <label>
+        Your age:
+    </label>
+        {{ user.age }}
+    </div>
+    <div>
+    <a href="{% url 'profile_edit' user.pk %}">Edit</a>
+    <a href="users/password_cange">Change password</a>
+    <a href="users/password_reset">Forgot password</a>
+    </div>
+{%  endblock content %}

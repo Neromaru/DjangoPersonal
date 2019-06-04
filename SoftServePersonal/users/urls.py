@@ -1,8 +1,10 @@
 from django.urls import path
 
-from .views import SignUpView
+from .views import SignUpView, ProfileView, RrofileEditView
 
 urlpatterns = [
-    path('signup/', SignUpView.as_view(), name='signup')
-
+    path('signup/', SignUpView.as_view(), name='signup'),
+    path('profile/<int:pk>', ProfileView.as_view(), name='profile'),
+    path('profile/<int:pk>/edit/', RrofileEditView.as_view(),
+         name='profile_edit')
     ]

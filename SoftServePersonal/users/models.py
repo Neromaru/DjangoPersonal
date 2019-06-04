@@ -6,5 +6,6 @@ from django.db import models
 
 class CustomUser(AbstractUser):
     age = models.PositiveIntegerField(null=True, blank=True)
+    image = models.ImageField(upload_to='media/', null=True, blank=True)
 
 

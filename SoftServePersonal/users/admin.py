@@ -9,7 +9,7 @@ class CutomAdmin(UserAdmin):
     model = CustomUser
     add_form = CustomUserCreationForm
     form = CutomUserChangeForm
-    list_display = ['email', 'username', 'age']
+    list_display = ['email', 'username', 'image']
 
 admin.site.register(CustomUser, CutomAdmin)
 

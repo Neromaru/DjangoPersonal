@@ -26,10 +26,8 @@ class IndexView(View):
             data = form.cleaned_data
             text = data['text_field']
             query_response, aggregation_results = self.query_string(text)
-            avg, max_, min_, diff_ = aggregation_results.values()
             return self.check_query_status(request, query_response, form,
-                                           avg, min_,
-                                           max_, diff_)
+                                           **aggregation_results)
         return render(request, 'django_personal/goods_list.html',
                       {'form': form})
 
@@ -37,23 +35,21 @@ class IndexView(View):
     def calculate_percentage_diff(end_val, beg_value):
         return (end_val-beg_value)/beg_value*100
 
-    def check_query_status(self, request, query_set, form, *args):
+    def check_query_status(self, request, query_set, form, **kwargs):
         query_results = query_set[:10]
+        context = {'form': form,
+                   'search': False}
         if query_results:
+            context.update(kwargs)
+            context['search'] = True
+            context[self.context_object_name] = query_results
             return render(request, 'django_personal/goods_list.html',
-                          {self.context_object_name: query_set,
-                              'form': form,
-                              'avg': args,
-                              'min': args,
-                              'max': args,
-                              'diff': args,
-                              'search': True})
+                          context
+                          )
         return render(request, 'django_personal/empty.html',
-                      {'search': False,
-                          'form': form})
+                      context)
 
     def query_string(self, text):
-        django_format = "%Y-%m-%d"
         today = datetime.today()
         this_week = today - timedelta(days=today.weekday())
         last_week = today - timedelta(days=today.weekday(), weeks=1)
