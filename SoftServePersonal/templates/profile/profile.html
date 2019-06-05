@@ -18,11 +18,7 @@
     {{ user.username }}
     </div>
     <div>
-        {% if user.image %}
-            <img alt="" src="{{ user.image }}">
-            {% else %}
-            <img src="{% static 'imgs/administrator-male.png' %}">
-        {% endif %}
+        <img alt="" src="{% get_media_prefix %}{{ user.image }}">
     </div>
     <div>
     <label>
@@ -40,6 +36,6 @@
     <a href="{% url 'profile_edit' user.pk %}">Edit</a>
     <a href="{% url 'password_change' %}">Change password</a>
     <a href="{% url 'password_reset' %}">Forgot password</a>
-        <a href="{% url 'subscription' %}">Upgrade to premium</a>
+        <a href="{% url 'subscription' user.pk %}">Upgrade to premium</a>
     </div>
 {%  endblock content %}

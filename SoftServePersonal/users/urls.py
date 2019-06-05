@@ -8,10 +8,10 @@ from .views import (SignUpView,
 
 urlpatterns = [
     path('signup/', SignUpView.as_view(), name='signup'),
-    path('profile/<int:pk>', ProfileView.as_view(), name='profile'),
-    path('profile/<int:pk>/edit/', RrofileEditView.as_view(),
+    path('<int:pk>/profile/', ProfileView.as_view(), name='profile'),
+    path('<int:pk>/profile/edit/', RrofileEditView.as_view(),
          name='profile_edit'),
-    path('subscription', SubscriptionPaymentView.as_view(),
+    path('<int:pk>/subscription', SubscriptionPaymentView.as_view(),
          name='subscription'),
-    path('subscription/confirmation/', PayCallbackView.as_view())
+    path('<int:pk>/subscription/confirmation/', PayCallbackView.as_view())
     ]

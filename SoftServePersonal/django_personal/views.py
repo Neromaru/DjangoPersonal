@@ -78,5 +78,5 @@ class IndexView(View):
         query_results = self.model.objects.filter(
             name__contains=text,
             published_date__gte=this_week
-            )[:10]
+            )
         return query_results, aggregation_results
