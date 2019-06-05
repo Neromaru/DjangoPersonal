@@ -38,7 +38,8 @@
     </div>
     <div>
     <a href="{% url 'profile_edit' user.pk %}">Edit</a>
-    <a href="users/password_cange">Change password</a>
-    <a href="users/password_reset">Forgot password</a>
+    <a href="{% url 'password_change' %}">Change password</a>
+    <a href="{% url 'password_reset' %}">Forgot password</a>
+        <a href="{% url 'subscription' %}">Upgrade to premium</a>
     </div>
 {%  endblock content %}

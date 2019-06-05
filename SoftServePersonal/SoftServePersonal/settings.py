@@ -58,9 +58,15 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USERNAME = 'near.3dsmax@gmail.com'
-EMAIL_HOST_PASSWORD = 'zictyriyzgszjpyp'
+EMAIL_USE_SSL = False
+EMAIL_HOST_USER = 'near.3dsmax@gmail.com'
+EMAIL_HOST_PASSWORD = 'pdbrtunqzjmxmqpe'
 
+LIQPAY_PUBLIC_KEY = 'sandbox_i75441921880'
+LIQPAY_PRIVATE_KEY = 'sandbox_tCaMaNqGTM8FyB4so0SPupD895kHoNXZYviuhYQQ'
+LIQPAY_DEFAULT_CURRENCY = 'USD'
+LIQPAY_DEFAULT_LANGUAGE = 'en'
+LIQPAY_DEFAULT_ACTION = 'pay'
 
 TEMPLATES = [
     {
@@ -139,9 +145,8 @@ AUTH_USER_MODEL = 'users.CustomUser'
 
 STATIC_URL = '/static/'
 
-
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 LOGIN_REDIRECT_URL = 'index'
 LOGOUT_REDIRECT_URL = 'index'
 

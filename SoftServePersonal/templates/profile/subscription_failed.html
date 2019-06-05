@@ -1,0 +1,9 @@
+{% extends 'django_personal/index.html' %}
+
+{% block content %}
+    <div>
+    Sorry< Something went wrong during your transaction,
+    you money are still with you.
+        <a href="{% url 'profile' user.pk %}">Return to you profile page</a>
+    </div>
+{% endblock content %}
