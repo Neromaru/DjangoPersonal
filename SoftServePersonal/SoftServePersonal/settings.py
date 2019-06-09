@@ -38,7 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_personal.apps.DjangopersonalConfig',
-    'users.apps.UsersConfig'
+    'users.apps.UsersConfig',
+    'django_celery_beat',
 ]
 
 MIDDLEWARE = [
@@ -67,6 +68,8 @@ LIQPAY_PRIVATE_KEY = 'sandbox_tCaMaNqGTM8FyB4so0SPupD895kHoNXZYviuhYQQ'
 LIQPAY_DEFAULT_CURRENCY = 'USD'
 LIQPAY_DEFAULT_LANGUAGE = 'en'
 LIQPAY_DEFAULT_ACTION = 'pay'
+
+CELERY_BROKER_URL = 'redis://192.168.99.101:32768'
 
 TEMPLATES = [
     {
@@ -97,7 +100,7 @@ DATABASES = {
         'NAME': 'postgres',
         'USER': 'postgres',
         'PASSWORD': '',
-        'HOST': '192.168.99.100',
+        'HOST': '192.168.99.101',
         'PORT': '5432',
         }
     }

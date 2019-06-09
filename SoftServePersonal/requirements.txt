@@ -1,2 +1,6 @@
 Django==2.2.1
 psycopg2-binary
+celery
+django-celery-beat
+redis
+flower

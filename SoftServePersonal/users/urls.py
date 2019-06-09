@@ -13,5 +13,6 @@ urlpatterns = [
          name='profile_edit'),
     path('<int:pk>/subscription', SubscriptionPaymentView.as_view(),
          name='subscription'),
-    path('<int:pk>/subscription/confirmation/', PayCallbackView.as_view())
+    path('<int:pk>/subscription/confirmation/', PayCallbackView.as_view()),
+    # path('<int:pk>/notifications/send_now', )
     ]

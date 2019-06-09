@@ -5,11 +5,11 @@
 <head>
     <meta charset="UTF-8">
     <title>Index</title>
-    <link href="{% static 'css/index.css' %}"></head>
+    <link href="{% static 'css/index.css' %}">
 </head>
 <header>
     <h1>
-        <a href="{% url 'index' %}">PriceAggregator app</a>
+        <a href="{% url "main" %}">PriceAggregator app</a>
     </h1>
 </header>
 <body>
@@ -23,6 +23,7 @@
         </a>
 
     <p>
+        <a href="{% url 'notify' user.pk%}">notify</a>
         <a href="{% url 'logout' %}">Logout</a>
     </p>
     </div>

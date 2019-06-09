@@ -1,4 +1,5 @@
 from django.db import models as model
+from users.models import CustomUser
 
 # Create your model here.
 
@@ -29,15 +30,9 @@ class Paltform(model.Model):
 class GoodsToNotificateAbout(model.Model):
     interested_max_price = model.FloatField()
     interested_min_price = model.FloatField()
-    user = model.ForeignKey(
-        'users.CustomUser',
-        on_delete=model.CASCADE
-        )
-    good = model.ForeignKey(
-        'django_personal.Good',
-        on_delete=model.CASCADE
-        )
+    interested_good = model.CharField(max_length=250, null=True, blank=True)
+    user = model.OneToOneField(CustomUser, on_delete=model.CASCADE)
 
     def __str__(self):
-        return f"{self.user.username}\t{self.good.name}\t" \
+        return f"{self.user.username}\t" \
             f"{self.interested_max_price}\t{self.interested_min_price}"

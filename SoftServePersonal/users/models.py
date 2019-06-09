@@ -5,7 +5,8 @@ from django.db import models
 CHOICES = (
     ('c', 'Common'),
     ('p', 'Premium')
-)
+    )
+
 
 class CustomUser(AbstractUser):
     age = models.PositiveIntegerField(null=True, blank=True)

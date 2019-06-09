@@ -1,82 +1,77 @@
 from django.views.generic import View
 from django.shortcuts import render
-from datetime import datetime, timedelta
+from django.contrib.auth.mixins import AccessMixin
+from django.http import HttpResponseRedirect
+import datetime as dt
 
-from django.db.models import Max, Min, Avg, Q, FloatField
-from .models import Good
-from .forms import SearchForm
+from .models import Good, GoodsToNotificateAbout
+from .controllers import GoodsViewController, GoodsNotificationController
+from .forms import SearchForm, NotificationForm
+from users.models import CustomUser
 # Create your views here.
 
 
 class IndexView(View):
     model = Good
     form_class = SearchForm
-    initial = {'key':'value'}
+    initial = {'key': 'value'}
     template_name = 'django_personal/goods_list.html'
     context_object_name = 'goods_list'
+    controller = GoodsViewController()
 
     def get(self, request, *args, **kwargs):
         form = self.form_class(initial=self.initial)
         return render(request, 'django_personal/goods_list.html',
-                      {'form': form})
+                      {"form": form})
 
     def post(self, request, *args, **kwargs):
         form = SearchForm(request.POST)
         if form.is_valid():
             data = form.cleaned_data
             text = data['text_field']
-            query_response, aggregation_results = self.query_string(text)
-            return self.check_query_status(request, query_response, form,
-                                           **aggregation_results)
+            context = {'form': form, 'search': False}
+            self.controller.text = text
+            query_response = self.controller.query_interested_goods_for_users(
+                limit=10)
+            if query_response['success']:
+                agregation_context = self.controller.query_goods_statistic()
+                context.update(agregation_context)
+                context['search'] = True
+                context[self.context_object_name] = query_response
+                return render(request, 'django_personal/goods_list.html',
+                              context)
+            return render(request, 'django_personal/empty.html',
+                          context)
         return render(request, 'django_personal/goods_list.html',
                       {'form': form})
 
-    @staticmethod
-    def calculate_percentage_diff(end_val, beg_value):
-        return (end_val-beg_value)/beg_value*100
 
-    def check_query_status(self, request, query_set, form, **kwargs):
-        query_results = query_set[:10]
-        context = {'form': form,
-                   'search': False}
-        if query_results:
-            context.update(kwargs)
-            context['search'] = True
-            context[self.context_object_name] = query_results
-            return render(request, 'django_personal/goods_list.html',
-                          context
-                          )
-        return render(request, 'django_personal/empty.html',
-                      context)
+class NotificationView(AccessMixin, View):
+    login_url = 'login'
+    model = CustomUser
+    form_class = NotificationForm
+    template_name = 'django_personal/notification_page.html'
+    initial = {'key': 'value'}
+    controller = GoodsNotificationController()
 
-    def query_string(self, text):
-        today = datetime.today()
-        this_week = today - timedelta(days=today.weekday())
-        last_week = today - timedelta(days=today.weekday(), weeks=1)
-        aggregation_results = self.model.objects.filter(
-            name__contains=text).aggregate(
-            avg=Avg('price', output_field=FloatField(), filter=Q(
-                published_date__gte=this_week
-                )),
-            max=Max('price', output_field=FloatField(), filter=Q(
-                published_date__gte=this_week
-                )),
-            min=Min('price', output_field=FloatField(), filter=Q(
-                published_date__gte=this_week
-                )),
-            diff=self.calculate_percentage_diff(Avg(
-                'price', output_field=FloatField(), filter=Q(
-                    published_date__gte=this_week
-                    )
-                ), Avg('price', output_field=FloatField(), filter=Q(
-                    published_date__gte=last_week,
-                    published_date__lt=this_week
-                    )
-                       )
-                )
-            )
-        query_results = self.model.objects.filter(
-            name__contains=text,
-            published_date__gte=this_week
-            )
-        return query_results, aggregation_results
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            return self.handle_no_permission()
+        if not self.request.user.subsctiption == 'p' and not \
+                self.request.user.subsctiption_due < dt.datetime.today():
+            return HttpResponseRedirect(f'user/{request.user.pk}/subscription')
+
+    def get(self, request, *args, **kwargs):
+        form = self.form_class(self.initial)
+        return render(request, self.template_name,
+                      {'form': form})
+
+    def post(self, request, *args, **kwargs):
+        form = NotificationForm(request.POST)
+        if form.is_valid():
+            data = form.cleaned_data
+            request.session['post_data'] = data
+            data.update({'user': request.user})
+            self.controller.add_notification(**data)
+            return HttpResponseRedirect('/')
+        return HttpResponseRedirect('/login')
