@@ -48,7 +48,7 @@ class SubscriptionPaymentView(TemplateView, LoginRequiredMixin,
     template_name = 'profile/liqpay_button.html'
 
     def get(self, request, *args, **kwargs):
-        back_url = 'https://breezy-bear-84.localtunnel.me'
+        back_url = 'https://terrible-pig-0.localtunnel.me'
         url = f'{back_url}/users/{request.user.pk}/subscription/confirmation/'
         liqpay = LiqPay(settings.LIQPAY_PUBLIC_KEY,
                         settings.LIQPAY_PRIVATE_KEY)

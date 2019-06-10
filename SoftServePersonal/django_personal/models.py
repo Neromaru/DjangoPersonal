@@ -6,10 +6,7 @@ from users.models import CustomUser
 
 class Good(model.Model):
     name = model.TextField()
-    paltform = model.ForeignKey(
-        'django_personal.Paltform',
-        on_delete=model.CASCADE
-        )
+    paltform = model.URLField()
     description = model.TextField()
     product_url = model.TextField()
     price = model.FloatField()
@@ -19,19 +16,11 @@ class Good(model.Model):
         return self.name
 
 
-class Paltform(model.Model):
-    name = model.TextField()
-    base_url = model.TextField()
-
-    def __str__(self):
-        return self.name
-
-
 class GoodsToNotificateAbout(model.Model):
     interested_max_price = model.FloatField()
     interested_min_price = model.FloatField()
     interested_good = model.CharField(max_length=250, null=True, blank=True)
-    user = model.OneToOneField(CustomUser, on_delete=model.CASCADE)
+    user = model.ForeignKey(CustomUser, on_delete=model.CASCADE)
 
     def __str__(self):
         return f"{self.user.username}\t" \

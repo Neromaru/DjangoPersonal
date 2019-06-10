@@ -1,0 +1,32 @@
+{% extends 'django_personal/index.html' %}
+
+{% block content %}
+    <div>
+    <a href="{% url 'notify' user.pk %}">add</a>
+    </div>
+    {% for notification in notifications %}
+        <div>
+        {{ notification.interested_good }}:{{ notification.interested_min_price }}-{{ notification.interested_max_price }}
+{#        <a href="{% url 'edit_notification' pk=user.pk pk1=notification.pk %}">Edit</a>#}
+{#        <a href="{% url 'delete_notification' pk=user.pk pk1=notification.pk %}">Delete</a>#}
+        </div>
+    {% endfor %}
+
+<div>
+    <span>
+        {% if notifications.has_previous %}
+            <a href="?page=1">&laquo; first</a>
+            <a href="?page={{ notifications.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span>
+            Page {{ notifications.number }} of {{ notifications.paginator.num_pages }}.
+        </span>
+
+        {% if notifications.has_next %}
+            <a href="?page={{ notifications.next_page_number }}">next</a>
+            <a href="?page={{ notifications.paginator.num_pages }}">last &raquo;</a>
+        {% endif %}
+    </span>
+</div>
+{% endblock content %}
