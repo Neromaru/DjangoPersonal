@@ -41,7 +41,7 @@ class IndexView(View):
                 agregation_context = self.controller.query_goods_statistic()
                 context.update(agregation_context)
                 context['search'] = True
-                context[self.context_object_name] = query_response
+                context[self.context_object_name] = query_response['results']
                 return render(request, 'django_personal/goods_list.html',
                               context)
             return render(request, 'django_personal/empty.html',

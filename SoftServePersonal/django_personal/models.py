@@ -6,9 +6,9 @@ from users.models import CustomUser
 
 class Good(model.Model):
     name = model.TextField()
-    paltform = model.URLField()
+    paltform = model.TextField()
     description = model.TextField()
-    product_url = model.TextField()
+    product_url = model.URLField()
     price = model.FloatField()
     published_date = model.DateField()
 

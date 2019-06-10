@@ -4,3 +4,5 @@ celery
 django-celery-beat
 redis
 flower
+requests
+Pillow
